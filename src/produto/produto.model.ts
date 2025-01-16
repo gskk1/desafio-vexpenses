@@ -8,8 +8,10 @@ export class Produto extends Model {
   id: number;
 
   @Column
-  nome: string;
+  name: string;
 
-  @Column
-  descricao: string;
+  @Column({
+    allowNull: true,
+  })
+  description: string;
 }
