@@ -12,4 +12,7 @@ export class ProdutosPlano extends Model {
 
   @Column
   idPlano: number;
+
+  @Column
+  status: number;
 }

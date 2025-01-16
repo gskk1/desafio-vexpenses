@@ -24,7 +24,13 @@ export class PlanoService {
       }
 
     async getPlanosById(id: number): Promise<Plano> {
+       
         return this.planoModel.findByPk(id);
+      }
+
+    async addProduto(planoId: number, produtoId): Promise<Plano> {
+
+        return this.planoModel.findByPk(planoId);
       }
 
     async deletePlanosById(id: number): Promise<void> {

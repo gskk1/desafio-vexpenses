@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { PlanoService } from './plano.service';
 import { Plano } from './plano.model';
 import { Produto } from 'src/produto/produto.model';
@@ -18,8 +18,13 @@ export class PlanoController {
     }
 
     @Post()
-    async create(@Body() body: { name: string, listaProdutos: Produto[]}): Promise<Plano> {
+    async createPlano(@Body() body: { name: string, listaProdutos: Produto[]}): Promise<Plano> {
       return this.planoService.createPlano(body.name, body.listaProdutos);
+    }
+
+    @Post(':plano_id/:produto')
+    async addProduto(@Param('plano_id') planoId: number, @Body() body:{ productId: number}): Promise<Plano> {
+      return this.planoService.addProduto(planoId, body.productId);
     }
 
     @Delete(':id')
