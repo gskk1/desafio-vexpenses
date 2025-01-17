@@ -1,99 +1,339 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Desafio VExpenses
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é baseado no desafio proposto pela VExpenses para a vaga de Desenvolvedor Junior
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Algumas considerações pessoais:
+Não estou satisfeito com a entrega deste forma, existem alguns pontos que estou ciente que precisam ser melhorados porem devido ao tempo que tinha (duas noites) acabei por optar a não implementar.
+Algumas dessas melhorias seriam:
+Validação com ValidationPipe no controller + criação de DTOs
+Utilização de middleware para autenticação e para controle de logs
+Implementação de testes para os services.
+Utilização de um banco de dados mais robusto como o postgresql ou mysql, a principio iria utilizar json-db pela finalidade e baixa complexidade da api, porem tive que trocar para sqlite para utilizar funçoes basicas como autoincrement e outras relações entre as tabelas.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologias Utilizadas
 
-## Project setup
+- **Node.js**
+- **NestJS**
+- **Sequelize**
+- **SQLite**
 
-```bash
-$ npm install
+---
+
+## Rodando o Projeto
+
+### 1. Instalar as Dependências
+
+Após clonar o repositório do projeto, vá para o diretório do projeto no seu terminal e execute o seguinte comando para instalar as dependências:
+
+npm install
+
+Após instalar as dependências, iniciar o projeto com o comando:
+
+npx nest start
+
+Isso irá iniciar a API no localhost com a porta padrão 3000
+
+### Endpoints
+
+Aqui estão os endpoints disponíveis na API:
+
+### 1. `GET /plano`
+
+Recupera todos os planos cadastrados.
+
+**Método**: `GET`
+
+**Exemplo de resposta:200**
+
+```json
+[
+  {
+    "id": 1,
+    "nome": "ccccc",
+    "createdAt": "2025-01-17T01:51:51.868Z",
+    "updatedAt": "2025-01-17T01:51:51.868Z"
+  },
+  {
+    "id": 2,
+    "nome": "ccccc",
+    "createdAt": "2025-01-17T03:05:47.991Z",
+    "updatedAt": "2025-01-17T03:05:47.991Z"
+  }
+]
 ```
 
-## Compile and run the project
+### 2. `GET /plano/:id`
 
-```bash
-# development
-$ npm run start
+Recupera as informações de um plano de forma mais detalhada.
+o historico retorna a operaçao que pode ser 1: Adição ou 2: Deleção.
 
-# watch mode
-$ npm run start:dev
+**Método**: `GET`
 
-# production mode
-$ npm run start:prod
+**Exemplo de resposta:200**
+
+```json
+{
+  "id": 1,
+  "nome": "ccccc",
+  "createdAt": "2025-01-17T01:51:51.868Z",
+  "updatedAt": "2025-01-17T01:51:51.868Z",
+  "produtos": [
+    {
+      "id": 1,
+      "name": "produto1",
+      "description": "aaaaaaaa",
+      "createdAt": "2025-01-17T01:51:36.623Z",
+      "updatedAt": "2025-01-17T01:51:36.623Z"
+    },
+    {
+      "id": 3,
+      "name": "produto3",
+      "description": "aaaaaaaa",
+      "createdAt": "2025-01-17T01:51:41.725Z",
+      "updatedAt": "2025-01-17T01:51:41.725Z"
+    },
+    {
+      "id": 4,
+      "name": "produto4",
+      "description": "aaaaaaaa",
+      "createdAt": "2025-01-17T01:51:43.700Z",
+      "updatedAt": "2025-01-17T01:51:43.700Z"
+    }
+  ],
+  "historico": [
+    {
+      "id": 1,
+      "idProduto": 1,
+      "idPlano": 1,
+      "operation": 1,
+      "createdAt": "2025-01-17T01:51:51.885Z",
+      "updatedAt": "2025-01-17T01:51:51.885Z"
+    },
+    {
+      "id": 2,
+      "idProduto": 2,
+      "idPlano": 1,
+      "operation": 1,
+      "createdAt": "2025-01-17T01:51:51.900Z",
+      "updatedAt": "2025-01-17T01:51:51.900Z"
+    },
+    {
+      "id": 5,
+      "idProduto": 2,
+      "idPlano": 1,
+      "operation": 2,
+      "createdAt": "2025-01-17T01:55:38.342Z",
+      "updatedAt": "2025-01-17T01:55:38.342Z"
+    },
+    {
+      "id": 3,
+      "idProduto": 3,
+      "idPlano": 1,
+      "operation": 1,
+      "createdAt": "2025-01-17T01:51:51.917Z",
+      "updatedAt": "2025-01-17T01:51:51.917Z"
+    },
+    {
+      "id": 4,
+      "idProduto": 4,
+      "idPlano": 1,
+      "operation": 1,
+      "createdAt": "2025-01-17T01:51:51.932Z",
+      "updatedAt": "2025-01-17T01:51:51.932Z"
+    }
+  ]
+}
 ```
 
-## Run tests
+### 3. `POST /plano`
 
-```bash
-# unit tests
-$ npm run test
+Adiciona um novo plano.
 
-# e2e tests
-$ npm run test:e2e
+**Método**: `POST`
+**Exemplo de requisicao:**
 
-# test coverage
-$ npm run test:cov
+```json
+{
+  "name": "ccccc",
+  "listaProdutos": [{ "id": 1 }, { "id": 2 }, { "id": 3 }, { "id": 4 }]
+}
 ```
 
-## Deployment
+**Exemplo de resposta: 201**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
+```json
+{
+  "id": 2,
+  "nome": "ccccc",
+  "updatedAt": "2025-01-17T03:05:47.991Z",
+  "createdAt": "2025-01-17T03:05:47.991Z"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 4. `POST /plano/:id/produtos`
 
-## Resources
+Adiciona um novo produto ou produtos ao plano, deve ser passado um array com os ids dos produtos.
 
-Check out a few resources that may come in handy when working with NestJS:
+**Método**: `POST`
+**Exemplo de requisicao:**
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```json
+{
+  "idsProduto": [1, 2, 3]
+}
+```
 
-## Support
+**Exemplo de resposta: 201**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```json
+{
+  "id": 1,
+  "nome": "ccccc",
+  "createdAt": "2025-01-17T01:51:51.868Z",
+  "updatedAt": "2025-01-17T01:51:51.868Z"
+}
+```
 
-## Stay in touch
+### 5. `DELETE /plano/:id`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Deleta um plano.
 
-## License
+**Método**: `DELETE`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Exemplo de resposta: 200**
+
+```json
+{
+  "message": "Plano deletado"
+}
+```
+
+### 6. `DELETE /plano/:id/produtos/:idProduto`
+
+Deleta um produto de um plano.
+
+**Método**: `DELETE`
+
+**Exemplo de resposta: 200**
+
+```json
+{
+  "message": "Produto deletado"
+}
+```
+
+### 7. `GET /produto`
+
+Recupera todos produtos cadastrados
+
+**Método**: `GET`
+
+**Exemplo de resposta: 200**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "produto1",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T01:51:36.623Z",
+    "updatedAt": "2025-01-17T01:51:36.623Z"
+  },
+  {
+    "id": 2,
+    "name": "produto2",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T01:51:39.699Z",
+    "updatedAt": "2025-01-17T01:51:39.699Z"
+  },
+  {
+    "id": 3,
+    "name": "produto3",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T01:51:41.725Z",
+    "updatedAt": "2025-01-17T01:51:41.725Z"
+  },
+  {
+    "id": 4,
+    "name": "produto4",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T01:51:43.700Z",
+    "updatedAt": "2025-01-17T01:51:43.700Z"
+  },
+  {
+    "id": 5,
+    "name": "produto5",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T01:51:45.786Z",
+    "updatedAt": "2025-01-17T01:51:45.786Z"
+  },
+  {
+    "id": 6,
+    "name": "",
+    "description": "aaaaaaaa",
+    "createdAt": "2025-01-17T02:43:05.642Z",
+    "updatedAt": "2025-01-17T02:43:05.642Z"
+  }
+]
+```
+
+### 8. `GET /produto/:id`
+
+Recupera um produto especifico cadastrado
+
+**Método**: `GET`
+
+**Exemplo de resposta: 200**
+
+```json
+{
+  "id": 2,
+  "name": "produto2",
+  "description": "aaaaaaaa",
+  "createdAt": "2025-01-17T01:51:39.699Z",
+  "updatedAt": "2025-01-17T01:51:39.699Z"
+}
+```
+
+### 9. `POST /produto`
+
+Cadastra um produto
+
+**Método**: `POST`
+
+**Exemplo de requisição**
+
+```json
+{
+  "name": "ccccc",
+  "description": "teste"
+}
+```
+
+**Exemplo de resposta: 201**
+
+```json
+{
+  "id": 2,
+  "name": "produto2",
+  "description": "aaaaaaaa",
+  "createdAt": "2025-01-17T01:51:39.699Z",
+  "updatedAt": "2025-01-17T01:51:39.699Z"
+}
+```
+
+### 10. `POST /produto/:id`
+
+Cadastra um produto
+
+**Método**: `DELETE`
+
+**Exemplo de resposta: 200**
+
+```json
+{
+  "message": "Produto deletado"
+}
+```
