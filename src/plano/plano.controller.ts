@@ -34,8 +34,9 @@ export class PlanoController {
   }
 
   @Delete(':id/produtos/:idProduto')
-  async removeProdutoDoPlano(@Param('id') idPlano: number, @Param('idProduto') idProduto: number ): Promise<void> {
-    return this.planoService.removeProduto(idPlano, idProduto);
+  async removeProdutoDoPlano(@Param('id') idPlano: number, @Param('idProduto') idProduto: number ): Promise<{ message: string }> {
+    await this.planoService.removeProduto(idPlano, idProduto);
+    return { message: 'Produto deletado' };
   }
 }
 

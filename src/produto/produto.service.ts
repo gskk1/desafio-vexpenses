@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Produto } from './produto.model';
 
@@ -7,6 +7,9 @@ export class ProdutoService {
   constructor(@InjectModel(Produto) private produtoModel: typeof Produto) {}
 
   async createProduto(name: string, description: string): Promise<Produto> {
+    if (name == '') {
+      throw new NotFoundException('Nome do produto nao pode ser nulo');
+    }
     return this.produtoModel.create({ name, description });
   }
 

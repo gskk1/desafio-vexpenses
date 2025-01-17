@@ -24,7 +24,7 @@ export class ProdutoController {
     @Delete(':id')
     async deleteById(@Param('id') id: number): Promise<{ message: string }> {
         await this.produtoService.deleteProdutosById(id);
-    return { message: 'User deleted successfully' };
+    return { message: 'Produto deletado' };
     }
     
 }

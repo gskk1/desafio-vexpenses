@@ -16,6 +16,14 @@ export class PlanoService {
   ) {}
 
   async createPlano(nome: string, produtos: Produto[]): Promise<Plano> {
+    if (nome == ""){
+      throw new NotFoundException('Nome Vazio');
+    }
+
+    if (produtos.length < 1) {
+      throw new NotFoundException('É necessario pelo menos 1 produto');
+    }
+
     const plano = await this.planoModel.create({ nome });
     for (const produto of produtos) {
       await this.ProdutosPlanoModel.create({
@@ -57,6 +65,7 @@ export class PlanoService {
     if (!plano) {
       throw new NotFoundException('Plano não encontrado');
     }
+    
     for (const id of idsProduto) {
       await this.ProdutosPlanoModel.findOrCreate({
         where: {

@@ -10,7 +10,9 @@ export class Produto extends Model {
   @Column
   id: number;
 
-  @Column
+  @Column({
+    allowNull: false,
+  })
   name: string;
 
   @Column({

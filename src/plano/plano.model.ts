@@ -10,7 +10,9 @@ export class Plano extends Model {
   @Column
   id: number;
 
-  @Column
+  @Column({
+    allowNull: false,
+  })
   nome: string;
 
   @BelongsToMany(() => Produto, () => ProdutosPlano)

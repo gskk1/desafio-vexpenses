@@ -1,22 +1,34 @@
-import { AutoIncrement, BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  AutoIncrement,
+  BelongsTo,
+  Column,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import { Plano } from 'src/plano/plano.model';
 import { Produto } from 'src/produto/produto.model';
 import { Operation } from './operation.enum';
 
 @Table
 export class Historico extends Model {
-  @PrimaryKey 
+  @PrimaryKey
   @AutoIncrement
   @Column
   id: number;
 
-  @ForeignKey(()=>Produto)
-  @Column
+  @ForeignKey(() => Produto)
+  @Column({
+    allowNull: false,
+  })
   idProduto: number;
 
-  @ForeignKey(()=>Plano)
+  @ForeignKey(() => Plano)
   @Column({
-    onDelete: 'CASCADE'
+    allowNull: false,
+    onDelete: 'CASCADE',
   })
   idPlano: number;
 
